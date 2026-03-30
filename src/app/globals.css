@@ -108,7 +108,7 @@ body { margin: 0; background: var(--bg); color: var(--text); font-family: -apple
 .ui small { font-size: 10px; color: rgba(255,255,255,0.36); }
 
 .topbar {
-    position: sticky; top: 0; z-index: 1;
+    position: sticky; top: 0; z-index: 20;
     height: 50px;
     background: var(--bg-card);
     border-bottom: 0.5px solid var(--border);

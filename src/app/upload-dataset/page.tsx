@@ -1,39 +1,54 @@
-import React from 'react';
+'use client';
 
-const UploadDatasetPage: React.FC = () => {
+import React, { useState } from 'react';
+import * as XLSX from 'xlsx';
+import { useData } from '../../context/DataContext';
+import { useRouter } from 'next/navigation';
+
+export default function UploadDataset() {
+  const [file, setFile] = useState<File | null>(null);
+  const { setData } = useData();
+  const router = useRouter();
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const binaryStr = event.target?.result;
+        if (binaryStr) {
+          const workbook = XLSX.read(binaryStr, { type: 'binary' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet);
+          setData(jsonData);
+          router.push('/');
+        }
+      };
+      reader.readAsBinaryString(file);
+    } else {
+      alert('Please select a file first.');
+    }
+  };
+
   return (
     <div className="card">
       <div className="ch">
-        <div className="ct">Upload Dataset</div>
+        <h1 className="ct">Upload Dataset</h1>
       </div>
-      <div style={{textAlign: 'center', padding: '40px'}}>
-        <div style={{fontSize: '14px', color: 'var(--text2)', marginBottom: '15px'}}>Select a CSV or Excel file to upload.</div>
-        <div style={{
-          border: '2px dashed var(--border)',
-          borderRadius: '10px',
-          padding: '40px 20px',
-          background: 'var(--bg)',
-          cursor: 'pointer'
-        }}>
-          <svg style={{width: '40px', height: '40px', color: 'var(--blue-mid)', marginBottom: '10px'}} viewBox="0 0 24 24" fill="none"><path d="M12 4v16m8-8H4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          <div style={{fontSize: '16px', fontWeight: 500, color: 'var(--text)'}}>Drag & drop files here</div>
-          <div style={{fontSize: '12px', color: 'var(--text2)', marginTop: '5px'}}>or click to browse</div>
-          <input type="file" style={{display: 'none'}}/>
-        </div>
-        <button style={{
-          background: 'var(--blue)',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '8px',
-          padding: '12px 20px',
-          fontSize: '14px',
-          fontWeight: 500,
-          cursor: 'pointer',
-          marginTop: '20px'
-        }}>Upload File</button>
-      </div>
+      <p>Please upload your Excel file containing the project data. The application will analyze the data and update the dashboard with the latest information.</p>
+      <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
+        <input type="file" onChange={handleFileChange} accept=".xlsx, .xls" style={{ display: 'block', marginBottom: '10px' }} />
+        <button type="submit" style={{ padding: '10px 20px', borderRadius: '5px', border: 'none', backgroundColor: '#378ADD', color: 'white', cursor: 'pointer' }}>
+          Upload and Analyze
+        </button>
+      </form>
     </div>
   );
-};
-
-export default UploadDatasetPage;
+}

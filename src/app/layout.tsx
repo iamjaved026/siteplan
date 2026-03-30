@@ -3,6 +3,7 @@ import { useState } from 'react';
 import './globals.css';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
+import { DataProvider } from '../context/DataContext';
 
 export default function RootLayout({
   children,
@@ -18,14 +19,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="dash">
-          <Sidebar isOpen={isSidebarOpen} />
-          <div className="main">
-            <Topbar onMenuClick={toggleSidebar} />
-            <div className="content">{children}</div>
+        <DataProvider>
+          <div className="dash">
+            <Sidebar isOpen={isSidebarOpen} />
+            <main className="main">
+              <Topbar onMenuClick={toggleSidebar} />
+              <div className="content">{children}</div>
+            </main>
+            {isSidebarOpen && <div className="overlay" onClick={toggleSidebar}></div>}
           </div>
-          {isSidebarOpen && <div className="overlay" onClick={toggleSidebar}></div>}
-        </div>
+        </DataProvider>
       </body>
     </html>
   );

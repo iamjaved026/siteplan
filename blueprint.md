@@ -1,19 +1,16 @@
-# Project Blueprint
+# MetroConstruct Project Blueprint
 
 ## Overview
 
-This document outlines the structure, features, and design of the BuildTrack Pro dashboard. It serves as a single source of truth for the project, documenting all implemented styles, designs, and features.
+This document outlines the architecture, features, and development plan for the MetroConstruct project management dashboard. The application is built using Next.js with the App Router and is designed to provide a comprehensive, real-time overview of a complex construction project.
 
-## Current State
+## Core Architecture
 
-### Styling and Design
+*   **Framework:** Next.js (App Router)
+*   **Styling:** CSS Modules and global styles
+*   **Deployment:** Firebase Hosting
 
-*   **Color Palette:** The application uses a specific color palette defined in `src/app/globals.css`.
-*   **Typography:** The application uses a consistent font and size hierarchy.
-*   **Layout:** The application uses a two-column layout with a fixed sidebar and a main content area.
-*   **Component Library:** The application uses a set of custom components to ensure a consistent look and feel.
-
-### Features
+## Features
 
 *   **Dashboard:** The main dashboard provides a high-level overview of the project status.
 *   **KPI Cards:** The dashboard includes KPI cards that display key project metrics.
@@ -27,8 +24,8 @@ This document outlines the structure, features, and design of the BuildTrack Pro
 
 ## Plan for Current Request
 
-*   **Goal:** Refine the existing implementation to closely match the provided HTML reference.
+*   **Goal:** Create three new pages: `Upload Dataset`, `Anomaly Detected`, and `Settings`, and make them accessible from the sidebar.
 *   **Steps:**
-    1.  Replace the global stylesheet to establish the correct design tokens and base styles.
-    2.  Refine each component and the overall layout to ensure all spacing, sizes, and alignments are accurate.
-    3.  Update the main dashboard page to correctly assemble the refined components.
+    1.  Create the file structure for the new pages.
+    2.  Add placeholder content for each page.
+    3.  Update the sidebar component to include links to the new pages.
