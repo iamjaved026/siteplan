@@ -1,9 +1,8 @@
 'use client';
-
+import { useState } from 'react';
 import './globals.css';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
-import { useState } from 'react';
 
 export default function RootLayout({
   children,
@@ -21,12 +20,10 @@ export default function RootLayout({
       <body>
         <div className="dash">
           <Sidebar isOpen={isSidebarOpen} />
-          <main className="main">
+          <div className="main">
             <Topbar onMenuClick={toggleSidebar} />
-            <div className="content">
-              {children}
-            </div>
-          </main>
+            <div className="content">{children}</div>
+          </div>
           {isSidebarOpen && <div className="overlay" onClick={toggleSidebar}></div>}
         </div>
       </body>
